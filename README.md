@@ -8,41 +8,11 @@ A realtime, voice-driven clinical interview assistant. The doctor or patient spe
 
 ---
 
-## To run it
+## Prerequisites
 
-**Backend** (terminal 1):
-
-```bash
-cd backend
-cp .env.example .env     # fill in OPENAI_API_KEY (+ DB vars if using MySQL)
-npm run dev              # starts on http://localhost:8080
-```
-
-Required values in `backend/.env`:
-
-```env
-OPENAI_API_KEY=sk-...your-key...
-
-PORT=8080
-SESSION_SECRET=change-me-to-something-random
-
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=ehospital
-DB_PORT=3306
-
-# HF_SENTIMENT_TOKEN=hf_...   (optional)
-```
-
-**Frontend** (terminal 2):
-
-```bash
-cd frontend
-npm run dev              # starts on http://localhost:3000
-```
-
-Open **http://localhost:3000** — redirects straight to the dashboard.
+- **Node.js** 18+ and npm
+- An **OpenAI API key** with access to the Realtime API and `gpt-4o-mini`
+- **MySQL** (optional — only needed if you want to save visit records to a database)
 
 ---
 
@@ -56,15 +26,15 @@ Ai triage/
 
 ---
 
-## Quick start
+## How to run it
 
 ### 1 — Backend
 
 ```bash
 cd backend
-cp .env.example .env      # then fill in OPENAI_API_KEY and DB_* values
-npm install               # already done if you cloned fresh
-npm run dev               # nodemon hot-reload  (or: npm start)
+cp .env.example .env      # fill in OPENAI_API_KEY (+ DB vars if using MySQL)
+npm install                # first time only
+npm run dev                # nodemon hot-reload  (or: npm start)
 ```
 
 Server starts at **http://localhost:8080**
@@ -77,16 +47,16 @@ curl "http://localhost:8080/api/chat/get-instructions?mode=doctor"
 
 ### 2 — Frontend
 
+Open a second terminal:
+
 ```bash
 cd frontend
 cp .env.example .env      # optional — defaults to http://localhost:8080
-npm install               # already done if you cloned fresh
-npm run dev               # Vite dev server
+npm install                 # first time only
+npm run dev                 # starts on http://localhost:3000
 ```
 
-App opens at **http://localhost:3000**
-
-Go to **http://localhost:3000/clinical-reasoning** (or just `/` which redirects there).
+Open **http://localhost:3000** in your browser — it redirects straight to the dashboard at `/clinical-reasoning`.
 
 ---
 
@@ -119,6 +89,7 @@ Go to **http://localhost:3000/clinical-reasoning** (or just `/` which redirects 
 
 - **Realtime voice** — WebRTC + OpenAI Realtime API (no audio proxied through backend)
 - **Live transcripts** — server VAD detects pauses and auto-responds
+- **Voice-to-text dictation** — mic buttons on the Doctor Review notes, Passive Listen summary, and Doctor Diagnostic observations fields
 - **AI summary** — generates a chart-ready clinical summary from the transcript
 - **Visit save** — stores summary to `doctor_patient_visits` via MySQL
 - **Doctor / Patient modes** — different system prompts per role
